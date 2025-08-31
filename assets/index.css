@@ -375,6 +375,8 @@
     /* start from below */
     transition: transform 0.25s ease-out;
 }
+
+
   /* horizontal carousels */
 .hscroll {
     overflow: hidden;
