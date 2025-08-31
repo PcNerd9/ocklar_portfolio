@@ -126,14 +126,32 @@
     setInterval(()=>{sgPos=(sgPos+1)%500;strengthGrid.scrollLeft = (Math.sin(sgPos/80)+1)*60;},120);
 
     /* ====== Portfolio stacking interaction ====== */
-    document.querySelectorAll('.pcard').forEach(card=>{
-      card.addEventListener('click', ()=>{
-        const name=card.dataset.name; const role=card.dataset.role; const desc=card.dataset.desc;
-        openModal(`<h2>${name}</h2><p style="font-weight:700">${role}</p><p>${desc}</p><div style=\"margin-top:12px;display:flex;gap:8px;justify-content:flex-end\"><a class=\"btn\" href=\"mailto:ayomide@example.com?subject=Inquiry%20about%20${encodeURIComponent(name)}\">Contact about this</a></div>`);
-      });
-      card.addEventListener('mouseenter', ()=>card.classList.add('active'));
-      card.addEventListener('mouseleave', ()=>card.classList.remove('active'));
-    });
+const cards = document.querySelectorAll('.pcard');
+
+function animateCards() {
+  const viewportHeight = window.innerHeight;
+
+  cards.forEach((card) => {
+    const rect = card.getBoundingClientRect();
+    const progress = 1 - Math.min(Math.max(rect.top / viewportHeight, 0), 1);
+
+    // fling effect: move up + scale in + tilt
+    const translateY = (1 - progress) * 150;   // starts lower, moves up
+    const scale = 0.9 + progress * 0.1;        // scales up smoothly
+    const rotate = (1 - progress) * 8;         // tilts while rising
+
+    card.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rotate}deg)`;
+  });
+
+  requestAnimationFrame(animateCards);
+}
+
+animateCards();
+
+
+animateCards();
+
+
 
     /* ====== Promotions ====== */
 
