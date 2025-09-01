@@ -125,9 +125,9 @@
     let sgPos=0;
     setInterval(()=>{sgPos=(sgPos+1)%500;strengthGrid.scrollLeft = (Math.sin(sgPos/80)+1)*60;},120);
 
-    /* ====== Portfolio stacking interaction ====== */
+    /* ====== artist stacking interaction ====== */
 document.addEventListener('DOMContentLoaded', () => {
-  const cards = Array.from(document.querySelectorAll('.portfolio-card.stacking'));
+  const cards = Array.from(document.querySelectorAll('.artist-card.stacking'));
 
   // Staggered fade-in
   const observer = new IntersectionObserver((entries) => {
@@ -241,9 +241,143 @@ document.addEventListener('DOMContentLoaded', () => {
   
     /* menu mobile open (very light) */
     document.querySelector('.hamburger').addEventListener('click', ()=>{
-      const links = ['#home','#about-full','#services','#portfolio','#contact'];
+      const links = ['#home','#about-full','#services','#artist','#contact'];
       const m = links.map(l=>`<a href=\"${l}\">${l.replace('#','')}</a>`).join('<br>'); openModal(`<div style=\"padding:12px;display:flex;flex-direction:column;gap:8px\">${m}</div>`);
     });
 
     /* Prevent overscroll on small elements */
     document.querySelectorAll('.hscroll').forEach(s=>{s.addEventListener('wheel', e=>{ if(Math.abs(e.deltaX) < 1 && Math.abs(e.deltaY) > 0) { s.scrollLeft += e.deltaY; e.preventDefault();}})});
+
+    /* ====== NEW ANIMATIONS FOR REDESIGNED SECTIONS ====== */
+    
+    // Intersection Observer for promotion cards
+    const promotionCards = document.querySelectorAll('.promotion-card');
+    const promotionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    promotionCards.forEach(card => {
+      promotionObserver.observe(card);
+    });
+
+    // Intersection Observer for portfolio items
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const portfolioObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    portfolioItems.forEach(item => {
+      portfolioObserver.observe(item);
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('nav.primary a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        if (targetSection) {
+          targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Parallax effect for background elements
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const parallaxElements = document.querySelectorAll('#promotions::before, #portfolio::before, .reviews::before, footer::before');
+      
+      parallaxElements.forEach(element => {
+        const speed = 0.5;
+        element.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    });
+
+    // Enhanced button hover effects
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transform = 'translateY(-2px) scale(1.02)';
+      });
+      
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+
+    // Simple hover effects instead of floating animation
+    function addHoverEffects() {
+      const cards = document.querySelectorAll('.promotion-card, .portfolio-item');
+      cards.forEach((card) => {
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+    }
+
+    // Initialize hover effects after page load
+    window.addEventListener('load', () => {
+      setTimeout(addHoverEffects, 1000);
+    });
+
+    // Handle image loading errors gracefully
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', function() {
+        this.style.display = 'none';
+        const fallback = document.createElement('div');
+        fallback.style.cssText = `
+          width: 100%;
+          height: 200px;
+          background: linear-gradient(135deg, rgba(240, 224, 110, 0.2) 0%, rgba(112, 44, 152, 0.2) 100%);
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--accent);
+          font-weight: 600;
+          font-size: 1.1rem;
+        `;
+        fallback.textContent = 'Image Loading...';
+        this.parentNode.insertBefore(fallback, this);
+      });
+      
+      // Ensure images are visible after loading
+      img.addEventListener('load', function() {
+        this.style.opacity = '1';
+        this.style.visibility = 'visible';
+      });
+    });
+
+    // Force re-render of images after animations complete
+    setTimeout(() => {
+      document.querySelectorAll('.promotion-card img, .portfolio-item img').forEach(img => {
+        img.style.opacity = '1';
+        img.style.visibility = 'visible';
+        img.style.display = 'block';
+      });
+    }, 2000);
+
+    // Additional safety check to ensure images stay visible
+    setInterval(() => {
+      document.querySelectorAll('.promotion-card img, .portfolio-item img').forEach(img => {
+        if (img.style.opacity === '0' || img.style.visibility === 'hidden' || img.style.display === 'none') {
+          img.style.opacity = '1';
+          img.style.visibility = 'visible';
+          img.style.display = 'block';
+        }
+      });
+    }, 3000);
