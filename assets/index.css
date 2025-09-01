@@ -1,4 +1,4 @@
-  /* ====== Theme Colors ====== */
+/* ====== Theme Colors ====== */
   :root {
       --bg: #22051C;
       /* main */
@@ -561,3 +561,100 @@
   .subtle {
       color: rgba(255, 255, 255, 0.7)
   }
+
+  /* Portfolio Modern Grid */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 18px;
+  }
+  .portfolio-card {
+    min-height: 220px;
+  }
+  .card-image {
+    height: 180px;
+  }
+  .card-title {
+    font-size: 1rem;
+  }
+  .card-role {
+    font-size: 0.9rem;
+  }
+  .card-overlay {
+    padding: 12px 10px 8px 10px;
+  }
+}
+
+/* Portfolio Card & stacking effect */
+.portfolio-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  transition: transform .6s, box-shadow .6s, opacity 0.7s;
+  opacity: 0;
+}
+
+.portfolio-card.show {
+  opacity: 1;
+}
+
+.portfolio-card.stacking {
+  transform-origin: center;
+  transition: transform .6s, box-shadow .6s, opacity 0.7s;
+}
+
+.portfolio-card.stacking.active {
+  transform: scale(1.06) translateY(-8px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+}
+
+/* Card image fills top */
+.card-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+/* Overlay for text */
+.card-overlay {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.7) 100%);
+  color: #fff;
+  padding: 18px 16px 12px 16px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 2;
+}
