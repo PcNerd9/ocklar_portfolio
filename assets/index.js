@@ -126,30 +126,45 @@
     setInterval(()=>{sgPos=(sgPos+1)%500;strengthGrid.scrollLeft = (Math.sin(sgPos/80)+1)*60;},120);
 
     /* ====== artist stacking interaction ====== */
-document.addEventListener('DOMContentLoaded', () => {
-  const cards = Array.from(document.querySelectorAll('.artist-card.stacking'));
+    const cards = Array.from(document.querySelectorAll('.artist-card.stacking'));
 
-  // Staggered fade-in
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const idx = cards.indexOf(el);
-        setTimeout(() => el.classList.add('show'), idx * 120);
-        observer.unobserve(el);
-      }
+    // Ensure cards are visible
+    cards.forEach(card => {
+      card.style.opacity = '1';
+      card.classList.add('show');
     });
-  }, { threshold: 0.2 });
-  cards.forEach(c => observer.observe(c));
 
-  // Stacking animation
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => card.classList.add('active'));
-    card.addEventListener('mouseleave', () => card.classList.remove('active'));
-    card.addEventListener('focus', () => card.classList.add('active'));
-    card.addEventListener('blur', () => card.classList.remove('active'));
-  });
-});
+    // Staggered fade-in animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const idx = cards.indexOf(el);
+          setTimeout(() => {
+            el.classList.add('show');
+            el.style.opacity = '1';
+          }, idx * 120);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(c => observer.observe(c));
+
+    // Stacking animation
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => card.classList.add('active'));
+      card.addEventListener('mouseleave', () => card.classList.remove('active'));
+      card.addEventListener('focus', () => card.classList.add('active'));
+      card.addEventListener('blur', () => card.classList.remove('active'));
+    });
+
+    // Fallback: ensure all cards are visible after a delay
+    setTimeout(() => {
+      cards.forEach(card => {
+        card.style.opacity = '1';
+        card.classList.add('show');
+      });
+    }, 1000);
 
 
     /* ====== Promotions ====== */
@@ -381,3 +396,65 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }, 3000);
+
+    /* ====== STICKY NOTE REVIEWS CAROUSEL ====== */
+    
+    // Sticky note reviews carousel functionality
+    const stickyNotes = document.querySelectorAll('.sticky-note');
+    const prevBtn = document.getElementById('prevReview');
+    const nextBtn = document.getElementById('nextReview');
+    const indicators = document.getElementById('reviewIndicators');
+    
+    let currentStickyReview = 0;
+    const totalReviews = stickyNotes.length;
+    
+    // Create indicators
+    stickyNotes.forEach((_, index) => {
+      const indicator = document.createElement('div');
+      indicator.className = 'review-indicator';
+      indicator.addEventListener('click', () => goToReview(index));
+      indicators.appendChild(indicator);
+    });
+    
+    function showReview(index) {
+      // Hide all notes
+      stickyNotes.forEach(note => {
+        note.style.transform = 'translateX(100vw) rotate(-2deg)';
+        note.style.opacity = '0';
+      });
+      
+      // Show current note
+      stickyNotes[index].style.transform = 'translateX(0) rotate(-2deg)';
+      stickyNotes[index].style.opacity = '1';
+      
+      // Update indicators
+      document.querySelectorAll('.review-indicator').forEach((ind, i) => {
+        ind.classList.toggle('active', i === index);
+      });
+      
+      currentStickyReview = index;
+    }
+    
+    function nextReview() {
+      const next = (currentStickyReview + 1) % totalReviews;
+      showReview(next);
+    }
+    
+    function prevReview() {
+      const prev = (currentStickyReview - 1 + totalReviews) % totalReviews;
+      showReview(prev);
+    }
+    
+    function goToReview(index) {
+      showReview(index);
+    }
+    
+    // Event listeners
+    if (nextBtn) nextBtn.addEventListener('click', nextReview);
+    if (prevBtn) prevBtn.addEventListener('click', prevReview);
+    
+    // Auto-advance every 3 seconds
+    setInterval(nextReview, 3000);
+    
+    // Initialize first review
+    showReview(0);

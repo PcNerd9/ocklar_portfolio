@@ -267,10 +267,78 @@
       <!-- Reviews -->
       <section id="reviews" class="reviews">
         <h3 class="section-title">Customer Reviews</h3>
-        <div class="review-track" id="reviewTrack">
-          <!-- each review as a full-width card -->
+        <div class="sticky-notes-container">
+          <div class="sticky-note" data-review="0">
+            <div class="note-content">
+              <div class="note-header">
+                <div class="note-pin"></div>
+                <span class="note-title">Amazing Results!</span>
+              </div>
+              <p>"Working with Ayomide was a game-changer for my career. His PR strategies got my music in front of the right audience, and the buzz hasn't stopped since."</p>
+              <div class="note-author">— Rising Afrobeats Artist</div>
+            </div>
+          </div>
+          
+          <div class="sticky-note" data-review="1">
+            <div class="note-content">
+              <div class="note-header">
+                <div class="note-pin"></div>
+                <span class="note-title">Event Master!</span>
+              </div>
+              <p>"Ayomide doesn't just promote events; he creates an experience. The last show he handled for us sold out and left the crowd asking for more."</p>
+              <div class="note-author">— Event Organizer</div>
+            </div>
+          </div>
+          
+          <div class="sticky-note" data-review="2">
+            <div class="note-content">
+              <div class="note-header">
+                <div class="note-pin"></div>
+                <span class="note-title">Professional Excellence</span>
+              </div>
+              <p>"Professional, reliable, and innovative — Ayomide knows how to make a brand stand out. His connections in the industry are unmatched."</p>
+              <div class="note-author">— Record Label Executive</div>
+            </div>
+          </div>
+          
+          <div class="sticky-note" data-review="3">
+            <div class="note-content">
+              <div class="note-header">
+                <div class="note-pin"></div>
+                <span class="note-title">Authentic Growth</span>
+              </div>
+              <p>"I appreciate how Ayomide takes the time to understand an artist's vision. He helped me build my image and grow my fanbase authentically."</p>
+              <div class="note-author">— Independent Artist</div>
+            </div>
+          </div>
+          
+          <div class="sticky-note" data-review="4">
+            <div class="note-content">
+              <div class="note-header">
+                <div class="note-pin"></div>
+                <span class="note-title">Results Driven</span>
+              </div>
+              <p>"From media coverage to audience engagement, Ayomide handles everything with excellence. He's the kind of promoter every artist dreams of working with."</p>
+              <div class="note-author">— Music Manager</div>
+            </div>
+          </div>
+          
+          <div class="sticky-note" data-review="5">
+            <div class="note-content">
+              <div class="note-header">
+                <div class="note-pin"></div>
+                <span class="note-title">Movement Creator</span>
+              </div>
+              <p>"Ayomide knows how to turn noise into a movement. Every project with him makes waves."</p>
+              <div class="note-author">— Club Owner</div>
+            </div>
+          </div>
         </div>
-        <div class="dots-wrap" id="reviewDots"></div>
+        <div class="review-navigation">
+          <button class="nav-btn prev-btn" id="prevReview">‹</button>
+          <div class="review-indicators" id="reviewIndicators"></div>
+          <button class="nav-btn next-btn" id="nextReview">›</button>
+        </div>
       </section>
 
       <!-- Contact -->
@@ -278,16 +346,61 @@
         <h3 class="section-title">Contact Me</h3>
         <p class="subtle">Get in touch — let’s talk about how I can help amplify your music.</p>
 
-        <form class="contact-form" id="contactForm" onsubmit="return handleContact(event)">
-          <input type="text" placeholder="Your name" name="name" required>
-          <input type="email" placeholder="Your email" name="email" required>
-          <input type="text" placeholder="Subject" name="subject" required>
-          <textarea placeholder="Your message" name="message" required></textarea>
-          <div style="grid-column:1/-1;display:flex;gap:12px;justify-content:flex-end">
-            <button class="btn" type="submit">Send Message</button>
-            <a class="btn secondary" href="mailto:ayomide@example.com">Email Directly</a>
+        <div class="contact-container">
+          <div class="contact-svg-container">
+            <svg class="contact-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background elements -->
+              <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:rgba(240, 224, 110, 0.3);stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:rgba(112, 44, 152, 0.3);stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:rgba(240, 224, 110, 0.8);stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:rgba(112, 44, 152, 0.8);stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              
+              <!-- Floating music notes -->
+              <g class="music-notes">
+                <path class="note note1" d="M50 80 Q60 70 70 80 Q80 90 70 100 Q60 110 50 100 Q40 90 50 80 Z" fill="url(#grad1)"/>
+                <path class="note note2" d="M320 120 Q330 110 340 120 Q350 130 340 140 Q330 150 320 140 Q310 130 320 120 Z" fill="url(#grad1)"/>
+                <path class="note note3" d="M280 60 Q290 50 300 60 Q310 70 300 80 Q290 90 280 80 Q270 70 280 60 Z" fill="url(#grad1)"/>
+              </g>
+              
+              <!-- Main contact icon -->
+              <g class="contact-icon">
+                <circle cx="200" cy="150" r="80" fill="url(#grad2)" class="icon-bg"/>
+                <path d="M180 130 L220 130 L220 170 L180 170 Z" fill="white" class="envelope"/>
+                <path d="M185 135 L215 135 L200 150 Z" fill="rgba(112, 44, 152, 0.8)" class="envelope-fold"/>
+                <circle cx="200" cy="160" r="3" fill="white" class="dot"/>
+              </g>
+              
+              <!-- Connection lines -->
+              <g class="connection-lines">
+                <line x1="120" y1="100" x2="160" y2="140" stroke="url(#grad1)" stroke-width="2" class="line1"/>
+                <line x1="240" y1="140" x2="280" y2="100" stroke="url(#grad1)" stroke-width="2" class="line2"/>
+                <line x1="160" y1="200" x2="200" y2="180" stroke="url(#grad1)" stroke-width="2" class="line3"/>
+              </g>
+              
+              <!-- Pulse circles -->
+              <circle cx="200" cy="150" r="90" fill="none" stroke="url(#grad1)" stroke-width="2" class="pulse pulse1"/>
+              <circle cx="200" cy="150" r="110" fill="none" stroke="url(#grad1)" stroke-width="2" class="pulse pulse2"/>
+              <circle cx="200" cy="150" r="130" fill="none" stroke="url(#grad1)" stroke-width="2" class="pulse pulse3"/>
+            </svg>
           </div>
-        </form>
+          
+          <form class="contact-form" id="contactForm" onsubmit="return handleContact(event)">
+            <input type="text" placeholder="Your name" name="name" required>
+            <input type="email" placeholder="Your email" name="email" required>
+            <input type="text" placeholder="Subject" name="subject" required>
+            <textarea placeholder="Your message" name="message" required></textarea>
+            <div class="contact-buttons">
+              <button class="btn" type="submit">Send Message</button>
+              <a class="btn secondary" href="mailto:ayomide@example.com">Email Directly</a>
+            </div>
+          </form>
+        </div>
       </section>
 
     </main>
