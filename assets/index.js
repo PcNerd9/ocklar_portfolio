@@ -197,91 +197,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ====== Promotions ====== */
-
-(async function() {
-  const slider = document.getElementById('promotionsScroll');
-  const track = document.getElementById('promotionsTrack');
-  if (!slider || !track) return;
-
-  await imagesLoaded(track);
-
-  // Wrap the track in a wrapper for horizontal transform
-  const wrapper = document.createElement('div');
-  wrapper.className = 'slider-wrapper';
-  track.parentNode.insertBefore(wrapper, track);
-  wrapper.appendChild(track);
-
-  // Clone track for seamless looping
-  const clone = track.cloneNode(true);
-  wrapper.appendChild(clone);
-
-  // Variables for animation
-  let pos = 0;
-  const originalWidth = track.scrollWidth; // width of original track
-  let lastTime = null;
-  let isPaused = false;
-  const speedPxPerSec = 100;
-
-  const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduce) return;
-
-  function step(timestamp) {
-    if (!lastTime) lastTime = timestamp;
-    const delta = timestamp - lastTime;
-    lastTime = timestamp;
-
-    if (!isPaused) {
-      pos += speedPxPerSec * (delta / 1000);
-      pos = pos % originalWidth; // seamless infinite
-      wrapper.style.transform = `translateX(${-pos}px)`;
-    }
-
-    requestAnimationFrame(step);
-  }
-
-  // Pause/resume interactions
-  slider.addEventListener('mouseenter', () => isPaused = true);
-  slider.addEventListener('mouseleave', () => isPaused = false);
-  slider.addEventListener('focusin', () => isPaused = true);
-  slider.addEventListener('focusout', () => isPaused = false);
-
-  slider.addEventListener('pointerdown', e => {
-    isPaused = true;
-    slider.setPointerCapture?.(e.pointerId);
-  });
-  slider.addEventListener('pointerup', e => {
-    isPaused = false;
-    slider.releasePointerCapture?.(e.pointerId);
-  });
-  slider.addEventListener('pointercancel', () => { isPaused = false; });
-
-  // Recalculate on resize
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    isPaused = true;
-    resizeTimer = setTimeout(() => {
-      pos = pos % originalWidth;
-      isPaused = false;
-    }, 150);
-  });
-
-  requestAnimationFrame(step);
-
-  // Helper: wait for images
-  function imagesLoaded(container) {
-    const imgs = Array.from(container.querySelectorAll('img'));
-    const promises = imgs.map(img => img.complete 
-      ? Promise.resolve() 
-      : new Promise(resolve => {
-          img.addEventListener('load', resolve, { once: true });
-          img.addEventListener('error', resolve, { once: true });
-        })
-    );
-    return Promise.all(promises);
-  }
-})();
-
+    document.querySelectorAll('.pcard').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        const name=card.dataset.name; const role=card.dataset.role; const desc=card.dataset.desc;
+        openModal(`<h2>${name}</h2><p style="font-weight:700">${role}</p><p>${desc}</p><div style=\"margin-top:12px;display:flex;gap:8px;justify-content:flex-end\"><a class=\"btn\" href=\"mailto:ayomide@example.com?subject=Inquiry%20about%20${encodeURIComponent(name)}\">Contact about this</a></div>`);
+      });
+      card.addEventListener('mouseenter', ()=>card.classList.add('active'));
+      card.addEventListener('mouseleave', ()=>card.classList.remove('active'));
+    });
 
 
     /* ====== Modal helpers ====== */
