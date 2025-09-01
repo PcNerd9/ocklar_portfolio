@@ -314,22 +314,25 @@
 /* keep your card styles, adjust min-width to taste */
 .service-card {
     flex: 0 0 auto;
-    min-width: 280px;
-    max-width: 440px;
-    flex-direction: column;
+    min-width: 180px;
+    max-width: 600px;
+    height: 200px;
+    width: 300px;
+
+    /* flex-direction: column; */
     display: flex;
     gap: 12px;
     align-items: center;
     padding: 16px;
-    border-radius: 16px;
+    border-radius: 26px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .service-thumb {
-    width: 400px;
-    height: 400px;
-    border-radius: 10px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
     object-fit: cover;
 }
 
@@ -347,35 +350,141 @@
 }
 
   /* Portfolio cards */
+/* :root {
+    --card-max-width: 24rem;
+    --card-radius: 20px;
+    --shadow-color: rgba(10, 14, 18, 0.12);
+    --shadow-elevation: 8px;
+} */
+
 .stack-section {
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 100px;
-    /* bigger gap so fling feels natural */
-    padding: 100px 20px;
+    padding: 200px 20px;
+    /* background: #141416;
+    background-image: url("https://hng.tech/media/images/internship/blackboard.svg");
+    background-size: cover; */
 }
 
-.pcard {
+/* sticky container */
+.sticky-card {
     position: sticky;
-    top: 80px;
-    width: 70%;
-    /* slimmer width */
-    max-width: 400px;
-    /* cap width */
-    height: 520px;
-    /* taller than wide = portrait */
-    margin: 0 auto;
+    top: 15vh;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Base card */
+.pcard {
+    --tx: 0px;
+    --rx: 0deg;
+    --ry: 0deg;
+    --scale: 1;
+    --rot: 0deg;
+    --elevation: var(--shadow-elevation);
+
+    width: 40%;
+    max-width: var(--card-max-width);
+    height: 720px;
+    border-radius: var(--card-radius);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    color: #fff;
+
     background-size: cover;
     background-position: center;
-    border-radius: 20px;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-    transform-origin: center bottom;
-    transform: translateY(150px) scale(0.9);
-    /* start from below */
-    transition: transform 0.25s ease-out;
+    box-shadow: 0 calc(var(--elevation) / 3) var(--elevation) var(--shadow-color);
+
+    transform: translateY(var(--tx)) rotate(var(--rot)) rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--scale));
+    transition:
+        transform 420ms cubic-bezier(.22, .9, .3, 1),
+        box-shadow 420ms cubic-bezier(.22, .9, .3, 1),
+        opacity 650ms ease-out;
+
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    perspective: 1000px;
+    transform-style: preserve-3d;
 }
 
+/* Fade-in effect */
+.fade-card {
+    opacity: 0;
+    --tx: 80px;
+}
+
+.fade-card.show {
+    opacity: 1;
+    --tx: 0px;
+}
+
+/* Hover + focus effects */
+.pcard:hover,
+.pcard:focus {
+    --scale: 1.03;
+    --elevation: 24px;
+}
+
+.pcard:focus {
+    box-shadow: 0 6px 28px rgba(18, 38, 63, 0.18);
+}
+
+/* Individual offsets */
+.pcard-1 {
+    --rot: -12deg;
+    z-index: 4;
+}
+
+.pcard-2 {
+    --rot: -8deg;
+    z-index: 3;
+}
+
+.pcard-3 {
+    --rot: -4deg;
+    z-index: 2;
+}
+
+.pcard-4 {
+    --rot: -2deg;
+    z-index: 1;
+}
+
+/* Card text overlay */
+.pcard-content {
+    background: rgba(0, 0, 0, 0.45);
+    padding: 1rem;
+    border-radius: 12px;
+    transform: translateZ(30px);
+}
+
+.pcard-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .pcard,
+    .fade-card {
+        transition: none !important;
+        transform: none !important;
+    }
+
+    .fade-card {
+        opacity: 1;
+        --tx: 0px;
+    }
+}
 
   /* horizontal carousels */
 .hscroll {

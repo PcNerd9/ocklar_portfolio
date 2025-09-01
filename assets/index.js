@@ -126,31 +126,74 @@
     setInterval(()=>{sgPos=(sgPos+1)%500;strengthGrid.scrollLeft = (Math.sin(sgPos/80)+1)*60;},120);
 
     /* ====== Portfolio stacking interaction ====== */
-const cards = document.querySelectorAll('.pcard');
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = Array.from(document.querySelectorAll('.pcard.fade-card'));
 
-function animateCards() {
-  const viewportHeight = window.innerHeight;
+  // Fade-in reveal with stagger
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const idx = cards.indexOf(el);
+        const delay = Math.min(600, idx * 120);
+        setTimeout(() => el.classList.add('show'), delay);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.2 });
+  cards.forEach(c => observer.observe(c));
 
-  cards.forEach((card) => {
-    const rect = card.getBoundingClientRect();
-    const progress = 1 - Math.min(Math.max(rect.top / viewportHeight, 0), 1);
+  // 3D tilt interaction
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    cards.forEach(card => {
+      let rect = null;
+      const intensity = 12;
+      const intensityX = 10;
 
-    // fling effect: move up + scale in + tilt
-    const translateY = (1 - progress) * 150;   // starts lower, moves up
-    const scale = 0.9 + progress * 0.1;        // scales up smoothly
-    const rotate = (1 - progress) * 8;         // tilts while rising
+      function handleMove(e) {
+        if (!rect) rect = card.getBoundingClientRect();
+        const clientX = (e.touches?.[0]?.clientX ?? e.clientX);
+        const clientY = (e.touches?.[0]?.clientY ?? e.clientY);
+        const px = (clientX - rect.left) / rect.width;
+        const py = (clientY - rect.top) / rect.height;
+        const cx = px - 0.5;
+        const cy = py - 0.5;
+        const ry = cx * intensity;
+        const rx = -cy * intensityX;
+        card.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+        card.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+        card.style.setProperty('--scale', '1.03');
+        card.style.setProperty('--elevation', '24px');
+      }
 
-    card.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rotate}deg)`;
-  });
+      function handleLeave() {
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--scale', '1');
+        card.style.setProperty('--elevation', '8px');
+      }
 
-  requestAnimationFrame(animateCards);
-}
+      card.addEventListener('mousemove', handleMove, { passive: true });
+      card.addEventListener('mouseleave', handleLeave);
 
-animateCards();
+      card.addEventListener('touchmove', handleMove, { passive: true });
+      card.addEventListener('touchend', handleLeave);
 
-
-animateCards();
-
+      card.addEventListener('focus', () => {
+        card.style.setProperty('--scale', '1.03');
+        card.style.setProperty('--elevation', '24px');
+      });
+      card.addEventListener('blur', handleLeave);
+    });
+  } else {
+    cards.forEach(c => {
+      c.classList.add('show');
+      c.style.setProperty('--rx', '0deg');
+      c.style.setProperty('--ry', '0deg');
+    });
+  }
+});
 
 
     /* ====== Promotions ====== */
