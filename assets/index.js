@@ -1,3 +1,4 @@
+
 /* ====== Typing Animation ====== */
     const typingEl = document.getElementById('typing');
     const titles = ['PRO & Music Promoter ✨','PR Strategist','Event Curator','Brand Builder'];
@@ -184,40 +185,40 @@
     document.getElementById('modalClose').addEventListener('click', ()=>{modal.style.display='none';history.pushState('',document.title,window.location.pathname+window.location.search)});
     function openModal(html){modalContent.innerHTML = html; modal.style.display='flex'}
 
-    /* ====== Reviews population & slider ====== */
-    const reviews = [
-      '“Working with Ayomide was a game-changer for my career. His PR strategies got my music in front of the right audience, and the buzz hasn’t stopped since.” — Rising Afrobeats Artist',
-      '“Ayomide doesn’t just promote events; he creates an experience. The last show he handled for us sold out and left the crowd asking for more.” — Event Organizer',
-      '“Professional, reliable, and innovative — Ayomide knows how to make a brand stand out. His connections in the industry are unmatched.” — Record Label Executive',
-      '“I appreciate how Ayomide takes the time to understand an artist’s vision. He helped me build my image and grow my fanbase authentically.” — Independent Artist',
-      '“From media coverage to audience engagement, Ayomide handles everything with excellence. He’s the kind of promoter every artist dreams of working with.” — Music Manager',
-      '“Ayomide knows how to turn noise into a movement. Every project with him makes waves.” — Club Owner',
-      '“Since linking up with Ayomide, my streams have doubled. He pushes your music like it’s his own.” — Upcoming Rapper',
-      '“One word: Results. Ayomide delivers every time.” — Music Blogger',
-      '“He’s not just a promoter, he’s a connector. The doors he opened for me were priceless.” — Singer-Songwriter',
-      '“Ayomide is the bridge between artists and the spotlight. If he’s behind you, people will notice.” — DJ',
-      '“His PR game is clean, creative, and consistent. A true professional with passion.” — Media Personality',
-      '“What I love most? He makes sure the artist’s brand stays authentic while still blowing up.” — Afropop Artist',
-      '“Ayomide is the guy you want on your team if you’re serious about growth in this industry.” — Music Producer',
-      '“Every event he promotes feels bigger than life. He brings energy and people follow.” — Entertainment Brand',
-      '“From strategy to execution, Ayomide doesn’t miss. He’s the plug.” — Talent Manager'
-    ];
-    const reviewTrack = document.getElementById('reviewTrack');
-    const reviewDots = document.getElementById('reviewDots');
-    reviews.forEach((r,i)=>{
-      const rc = document.createElement('div'); rc.className='review-card'; rc.innerHTML = `<p>${r}</p>`; reviewTrack.appendChild(rc);
-      const d = document.createElement('button'); d.className='dot'; d.addEventListener('click', ()=>goReview(i)); reviewDots.appendChild(d);
-    });
-    let currentReview=0;
-    function showReview(i){
-      const width = reviewTrack.children[0].offsetWidth; reviewTrack.style.transform = `translateX(${-i*width}px)`; [...reviewDots.children].forEach((d,idx)=>d.style.background = idx===i? 'var(--accent)':'rgba(255,255,255,0.15)');
-    }
-    function goReview(i){currentReview=i; showReview(i)}
-    window.addEventListener('resize', ()=>showReview(currentReview));
-    showReview(0);
+    // /* ====== Reviews population & slider ====== */
+    // const reviews = [
+    //   '“Working with Ayomide was a game-changer for my career. His PR strategies got my music in front of the right audience, and the buzz hasn’t stopped since.” — Rising Afrobeats Artist',
+    //   '“Ayomide doesn’t just promote events; he creates an experience. The last show he handled for us sold out and left the crowd asking for more.” — Event Organizer',
+    //   '“Professional, reliable, and innovative — Ayomide knows how to make a brand stand out. His connections in the industry are unmatched.” — Record Label Executive',
+    //   '“I appreciate how Ayomide takes the time to understand an artist’s vision. He helped me build my image and grow my fanbase authentically.” — Independent Artist',
+    //   '“From media coverage to audience engagement, Ayomide handles everything with excellence. He’s the kind of promoter every artist dreams of working with.” — Music Manager',
+    //   '“Ayomide knows how to turn noise into a movement. Every project with him makes waves.” — Club Owner',
+    //   '“Since linking up with Ayomide, my streams have doubled. He pushes your music like it’s his own.” — Upcoming Rapper',
+    //   '“One word: Results. Ayomide delivers every time.” — Music Blogger',
+    //   '“He’s not just a promoter, he’s a connector. The doors he opened for me were priceless.” — Singer-Songwriter',
+    //   '“Ayomide is the bridge between artists and the spotlight. If he’s behind you, people will notice.” — DJ',
+    //   '“His PR game is clean, creative, and consistent. A true professional with passion.” — Media Personality',
+    //   '“What I love most? He makes sure the artist’s brand stays authentic while still blowing up.” — Afropop Artist',
+    //   '“Ayomide is the guy you want on your team if you’re serious about growth in this industry.” — Music Producer',
+    //   '“Every event he promotes feels bigger than life. He brings energy and people follow.” — Entertainment Brand',
+    //   '“From strategy to execution, Ayomide doesn’t miss. He’s the plug.” — Talent Manager'
+    // ];
+    // const reviewTrack = document.getElementById('reviewTrack');
+    // const reviewDots = document.getElementById('reviewDots');
+    // reviews.forEach((r,i)=>{
+    //   const rc = document.createElement('div'); rc.className='review-card'; rc.innerHTML = `<p>${r}</p>`; reviewTrack.appendChild(rc);
+    //   const d = document.createElement('button'); d.className='dot'; d.addEventListener('click', ()=>goReview(i)); reviewDots.appendChild(d);
+    // });
+    // let currentReview=0;
+    // function showReview(i){
+    //   const width = reviewTrack.children[0].offsetWidth; reviewTrack.style.transform = `translateX(${-i*width}px)`; [...reviewDots.children].forEach((d,idx)=>d.style.background = idx===i? 'var(--accent)':'rgba(255,255,255,0.15)');
+    // }
+    // function goReview(i){currentReview=i; showReview(i)}
+    // window.addEventListener('resize', ()=>showReview(currentReview));
+    // showReview(0);
 
-    /* simple autoplay for review */
-    setInterval(()=>{currentReview=(currentReview+1)%reviews.length;showReview(currentReview);},4200);
+    // /* simple autoplay for review */
+    // setInterval(()=>{currentReview=(currentReview+1)%reviews.length;showReview(currentReview);},4200);
 
     /* ====== Contact handler (mailto fallback) ====== */
     function handleContact(e){
@@ -420,12 +421,12 @@
       // Hide all notes
       stickyNotes.forEach(note => {
         note.style.transform = 'translateX(100vw) rotate(-2deg)';
-        note.style.opacity = '0';
+        note.style.display = 'none';
       });
       
       // Show current note
       stickyNotes[index].style.transform = 'translateX(0) rotate(-2deg)';
-      stickyNotes[index].style.opacity = '1';
+      stickyNotes[index].style.display = 'flex';
       
       // Update indicators
       document.querySelectorAll('.review-indicator').forEach((ind, i) => {
@@ -454,7 +455,9 @@
     if (prevBtn) prevBtn.addEventListener('click', prevReview);
     
     // Auto-advance every 3 seconds
-    setInterval(nextReview, 3000);
+    setInterval(nextReview, 5000);
     
     // Initialize first review
     showReview(0);
+    
+    
