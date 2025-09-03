@@ -936,8 +936,8 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 30% 20%, rgba(112, 44, 152, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(240, 224, 110, 0.1) 0%, transparent 50%);
+  background: radial-gradient(circle at 30% 20%, rgba(53, 20, 73, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(112, 44, 152, 0.1) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
 }
@@ -988,7 +988,7 @@ footer {
   overflow: hidden;
   font-weight: 600;
   font-size: 0.95rem;
-  opacity: 0;
+  opacity: 1;
   animation: slideInUp 0.6s ease-out forwards;
 }
 
@@ -1110,6 +1110,7 @@ footer {
 }
 
 .portfolio-item {
+  width: 370px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1119,7 +1120,7 @@ footer {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   transform: translateY(30px);
-  opacity: 0;
+  opacity: 1;
   animation: slideInUp 0.6s ease-out forwards;
   animation-fill-mode: forwards;
   will-change: transform, opacity;
@@ -1165,13 +1166,13 @@ footer {
   right: 0;
   bottom: 0;
   background: linear-gradient(135deg, rgba(240, 224, 110, 0.1) 0%, rgba(112, 44, 152, 0.1) 100%);
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.4s ease;
   z-index: 1;
 }
 
 .portfolio-item:hover::before {
-  opacity: 1;
+  opacity: 0;
 }
 
 .portfolio-item:hover {
@@ -1218,7 +1219,7 @@ footer {
 
 .portfolio-item img {
   width: 100%;
-  height: 250px;
+  height: 350px;
   object-fit: cover;
   transition: transform 0.4s ease;
   background: linear-gradient(135deg, rgba(240, 224, 110, 0.1) 0%, rgba(112, 44, 152, 0.1) 100%);
@@ -1320,19 +1321,22 @@ footer {
 
 /* Filter Animation */
 .portfolio-item {
+  opacity: 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .portfolio-item.hidden {
-  opacity: 0;
+  opacity: 0 !important;
   transform: scale(0.8) translateY(20px);
   pointer-events: none;
+  display: none;
 }
 
 .portfolio-item.visible {
   opacity: 1;
   transform: scale(1) translateY(0);
   pointer-events: all;
+  display: block;
 }
 
 /* Empty State */
