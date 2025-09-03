@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <link rel="stylesheet" href="assets/about.css">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400 -->
+</head>
+
+<body>
+
+    <section class="intro">
+        <h1>About Me</h1>
+        <p><strong>School:</strong> University of Ilorin — expected 2026.</p>
+        <p>I am a passionate <span class="highlight">Public Relations Officer</span> and dynamic <span
+                class="secondary">music promoter</span> dedicated to building brands, amplifying talent, and creating
+            unforgettable experiences. With a deep love for music and culture, I specialize in connecting artists with
+            the right audiences, crafting impactful publicity strategies, and ensuring every project shines in the
+            spotlight.</p>
+        <img src="assets/TAA_2457.jpeg" alt="Profile Image">
+    </section>
+
+    <section class="journey">
+        <h2>My Journey</h2>
+        <!-- <div class="two-column"> -->
+            <div>
+                <p>My journey started with a profound love for <span class="highlight">music</span> and the desire to
+                    help talents grow. Over the years, I have worked with emerging artists and seasoned professionals
+                    alike, ensuring that each story is told with authenticity and passion. At the <span
+                        class="secondary">University of Ilorin</span>, I developed leadership skills that allowed me to
+                    manage teams, campaigns, and high-pressure projects with confidence.</p>
+                <p>Being involved in countless events and campaigns, I discovered the power of storytelling and brand
+                    connection. For me, PR is not just about publicity—it’s about crafting narratives that resonate and
+                    inspire.</p>
+            </div>
+            <img src="assets/TAA_2457.jpeg" alt="Music Journey">
+        <!-- </div> -->
+    </section>
+
+    <section class="experience">
+        <h2>My Experience</h2>
+        <p>From managing <span class="highlight">Call My Name</span> and shaping brand stories to organizing live events
+            and digital campaigns, I thrive on bringing visions to life. Each project has taught me the importance of
+            collaboration, creativity, and precision.</p>
+        <p>I have successfully handled event promotions, media coverage, and artist branding projects that not only
+            increased visibility but also built long-lasting engagement. Whether it’s an intimate show or a large-scale
+            event, my goal is to create experiences that stay with people forever.</p>
+        <img src="assets/IMG_6747.JPG" alt="Event Experience">
+    </section>
+
+    <section class="philosophy">
+        <h2>My Philosophy</h2>
+        <p>I believe in <span class="secondary">authentic growth</span>. My approach to PR and promotion is rooted in
+            understanding the artist’s vision and amplifying it in a way that aligns with their values. I avoid
+            cookie-cutter strategies because each brand and artist deserves a unique spotlight. </p>
+        <p>For me, it’s not just about creating noise; it’s about creating <span class="highlight">movements</span> that
+            connect with fans and build a loyal community. I value consistency, integrity, and creativity in everything
+            I do.</p>
+        <img src="assets/IMG_6747.JPG" alt="Philosophy Image">
+    </section>
+
+    <section class="future">
+        <h2>Looking Ahead</h2>
+        <p>As I continue my journey, my goal is to elevate more artists, brands, and events to the next level. I
+            envision working with global talents, bridging cultures through music, and using PR as a tool for lasting
+            impact. My ultimate dream is to become a key force in shaping the narrative of African music worldwide.</p>
+        <p>With dedication, hard work, and passion, I know this vision will come to life. And along the way, I will
+            continue building genuine relationships and creating experiences that matter.</p>
+        <img src="assets/IMG_6747.JPG0" alt="Future Vision">
+    </section>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-brand">
+            <img src="assets/logo.jpeg" alt="Ocklar-logo">
+            <div class="footer-brand-info">
+                <h3>OCKLAR</h3>
+                <div class="muted">Giving your brand and music the publicity it needs</div>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <div class="footer-section">
+                <h4>Follow me</h4>
+            <a href="https://www.tiktok.com/@ocklar_" class="social-link">TikTok</a>
+            <a href="https://www.instagram.com/ocklar_promotions" class="social-link">Instagram</a>
+            <a href="https://x.com/OcklarP" class="social-link">Twitter</a>
+            <a href="https://wa.me/+2349032237344" class="social-link">WhatsApp</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Get in touch</h4>
+                <div class="footer-contact">
+            +234 903 223 7344<br>
+            Ocklarpromoter@gmail.com
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        const sections = document.querySelectorAll('.intro, .journey, .experience, .philosophy, .future');
+        const revealOnScroll = () => {
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+    </script>
+
+</body>
+
+</html>

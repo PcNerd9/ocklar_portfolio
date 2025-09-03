@@ -173,7 +173,7 @@ setTimeout(() => {
 document.querySelectorAll('.pcard').forEach(card => {
   card.addEventListener('click', () => {
     const name = card.dataset.name; const role = card.dataset.role; const desc = card.dataset.desc;
-    openModal(`<h2>${name}</h2><p style="font-weight:700">${role}</p><p>${desc}</p><div style=\"margin-top:12px;display:flex;gap:8px;justify-content:flex-end\"><a class=\"btn\" href=\"mailto:ayomide@example.com?subject=Inquiry%20about%20${encodeURIComponent(name)}\">Contact about this</a></div>`);
+    openModal(`<h2>${name}</h2><p style="font-weight:700">${role}</p><p>${desc}</p><div style=\"margin-top:12px;display:flex;gap:8px;justify-content:flex-end\"><a class=\"btn\" href=\"mailto:Ocklarpromoter@gmail.com?subject=Inquiry%20about%20${encodeURIComponent(name)}\">Contact about this</a></div>`);
   });
   card.addEventListener('mouseenter', () => card.classList.add('active'));
   card.addEventListener('mouseleave', () => card.classList.remove('active'));
@@ -186,40 +186,6 @@ const modalContent = document.getElementById('modalContent');
 document.getElementById('modalClose').addEventListener('click', () => { modal.style.display = 'none'; history.pushState('', document.title, window.location.pathname + window.location.search) });
 function openModal(html) { modalContent.innerHTML = html; modal.style.display = 'flex' }
 
-// /* ====== Reviews population & slider ====== */
-// const reviews = [
-//   '“Working with Ayomide was a game-changer for my career. His PR strategies got my music in front of the right audience, and the buzz hasn’t stopped since.” — Rising Afrobeats Artist',
-//   '“Ayomide doesn’t just promote events; he creates an experience. The last show he handled for us sold out and left the crowd asking for more.” — Event Organizer',
-//   '“Professional, reliable, and innovative — Ayomide knows how to make a brand stand out. His connections in the industry are unmatched.” — Record Label Executive',
-//   '“I appreciate how Ayomide takes the time to understand an artist’s vision. He helped me build my image and grow my fanbase authentically.” — Independent Artist',
-//   '“From media coverage to audience engagement, Ayomide handles everything with excellence. He’s the kind of promoter every artist dreams of working with.” — Music Manager',
-//   '“Ayomide knows how to turn noise into a movement. Every project with him makes waves.” — Club Owner',
-//   '“Since linking up with Ayomide, my streams have doubled. He pushes your music like it’s his own.” — Upcoming Rapper',
-//   '“One word: Results. Ayomide delivers every time.” — Music Blogger',
-//   '“He’s not just a promoter, he’s a connector. The doors he opened for me were priceless.” — Singer-Songwriter',
-//   '“Ayomide is the bridge between artists and the spotlight. If he’s behind you, people will notice.” — DJ',
-//   '“His PR game is clean, creative, and consistent. A true professional with passion.” — Media Personality',
-//   '“What I love most? He makes sure the artist’s brand stays authentic while still blowing up.” — Afropop Artist',
-//   '“Ayomide is the guy you want on your team if you’re serious about growth in this industry.” — Music Producer',
-//   '“Every event he promotes feels bigger than life. He brings energy and people follow.” — Entertainment Brand',
-//   '“From strategy to execution, Ayomide doesn’t miss. He’s the plug.” — Talent Manager'
-// ];
-// const reviewTrack = document.getElementById('reviewTrack');
-// const reviewDots = document.getElementById('reviewDots');
-// reviews.forEach((r,i)=>{
-//   const rc = document.createElement('div'); rc.className='review-card'; rc.innerHTML = `<p>${r}</p>`; reviewTrack.appendChild(rc);
-//   const d = document.createElement('button'); d.className='dot'; d.addEventListener('click', ()=>goReview(i)); reviewDots.appendChild(d);
-// });
-// let currentReview=0;
-// function showReview(i){
-//   const width = reviewTrack.children[0].offsetWidth; reviewTrack.style.transform = `translateX(${-i*width}px)`; [...reviewDots.children].forEach((d,idx)=>d.style.background = idx===i? 'var(--accent)':'rgba(255,255,255,0.15)');
-// }
-// function goReview(i){currentReview=i; showReview(i)}
-// window.addEventListener('resize', ()=>showReview(currentReview));
-// showReview(0);
-
-// /* simple autoplay for review */
-// setInterval(()=>{currentReview=(currentReview+1)%reviews.length;showReview(currentReview);},4200);
 
 /* ====== Contact handler (mailto fallback) ====== */
 function handleContact(e) {
@@ -229,20 +195,20 @@ function handleContact(e) {
   const subject = encodeURIComponent(f.get('subject'));
   const message = encodeURIComponent(f.get('message'));
   const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
-  window.location.href = `mailto:ayomide@example.com?subject=${subject}&body=${body}`;
+  window.location.href = `mailto:Ocklarpromoter@gmail.com?subject=${subject}&body=${body}`;
   return false;
 }
 
 /* ====== Read More -> About (hash route) ====== */
-document.getElementById('readMore').addEventListener('click', () => {
-  history.pushState(null, 'About', '#about-full'); renderRoute(); window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-document.getElementById('nav-about').addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, 'About', '#about-full'); renderRoute(); });
+// document.getElementById('readMore').addEventListener('click', () => {
+//   history.pushState(null, 'About', '#about-full'); renderRoute(); window.scrollTo({ top: 0, behavior: 'smooth' });
+// });
+// document.getElementById('nav-about').addEventListener('click', (e) => { e.preventDefault(); history.pushState(null, 'About', '#about-full'); renderRoute(); });
 
 function renderRoute() {
   const h = location.hash;
   if (h === '#about-full' || h === '#about') {
-    openModal(`<h2>About — Ayomide Adewunmi (OCKLARPR)</h2><p><strong>Full Biography</strong></p><p>I am a music and management brand student at the University of Ilorin (expected 2026). I am a passionate Public Relations Officer and dynamic music promoter dedicated to building brands, amplifying talent, and creating unforgettable experiences. With a deep love for music and culture, I specialize in connecting artists with the right audiences, crafting impactful publicity strategies, and ensuring every project shines in the spotlight. From managing media relations and brand storytelling to organizing live events and digital campaigns, I thrive on bringing visions to life and driving engagement that lasts. My goal is not just to promote, but to elevate — helping creatives grow their presence while fostering genuine connections with fans and industry stakeholders.</p><div style=\"margin-top:12px;display:flex;gap:8px;justify-content:flex-end\"><a class=\"btn\" href=\"mailto:ayomide@example.com?subject=Interested%20in%20your%20bio\">Contact</a></div>`);
+    openModal(`<h2>About — Ayomide Adewunmi (OCKLARPR)</h2><p><strong>Full Biography</strong></p><p>I am a music and management brand student at the University of Ilorin (expected 2026). I am a passionate Public Relations Officer and dynamic music promoter dedicated to building brands, amplifying talent, and creating unforgettable experiences. With a deep love for music and culture, I specialize in connecting artists with the right audiences, crafting impactful publicity strategies, and ensuring every project shines in the spotlight. From managing media relations and brand storytelling to organizing live events and digital campaigns, I thrive on bringing visions to life and driving engagement that lasts. My goal is not just to promote, but to elevate — helping creatives grow their presence while fostering genuine connections with fans and industry stakeholders.</p><div style=\"margin-top:12px;display:flex;gap:8px;justify-content:flex-end\"><a class=\"btn\" href=\"mailto:Ocklarpromoter@gmail.com?subject=Interested%20in%20your%20bio\">Contact</a></div>`);
   } else {
     modal.style.display = 'none';
   }
@@ -255,13 +221,19 @@ window.addEventListener('keydown', (e) => { if (e.key === 'Escape') { modal.styl
 /* initial route render */
 renderRoute();
 
+/* ====== Mobile nav toggle ====== */
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('nav.primary');
 
 /* menu mobile open (very light) */
-document.querySelector('.hamburger').addEventListener('click', () => {
-  const links = ['#home', '#about-full', '#services', '#artist', '#contact'];
-  const m = links.map(l => `<a href=\"${l}\">${l.replace('#', '')}</a>`).join('<br>'); openModal(`<div style=\"padding:12px;display:flex;flex-direction:column;gap:8px\">${m}</div>`);
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+
 });
 
+navLinks.addEventListener('click', () => {
+  navLinks.classList.remove('show');
+})
 /* Prevent overscroll on small elements */
 document.querySelectorAll('.hscroll').forEach(s => { s.addEventListener('wheel', e => { if (Math.abs(e.deltaX) < 1 && Math.abs(e.deltaY) > 0) { s.scrollLeft += e.deltaY; e.preventDefault(); } }) });
 
@@ -564,7 +536,7 @@ if (nextBtn) nextBtn.addEventListener('click', nextReview);
 if (prevBtn) prevBtn.addEventListener('click', prevReview);
 
 // Auto-advance every 3 seconds
-setInterval(nextReview, 5000);
+setInterval(nextReview, 10000);
 
 // Initialize first review
 showReview(0);
