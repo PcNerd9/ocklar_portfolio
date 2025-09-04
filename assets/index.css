@@ -386,6 +386,9 @@ nav.primary a:hover {
 }
 
 /* container: hide overflow, no scrollbar */
+.services {
+  margin-bottom: 80px
+}
 .services-slider {
   overflow: hidden;
   width: 100%;
