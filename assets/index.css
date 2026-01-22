@@ -35,7 +35,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.4;
   overflow-x: hidden;
-  /
 }
 
 a {
@@ -417,31 +416,36 @@ nav.primary a:hover {
 /* keep your card styles, adjust min-width to taste */
 .service-card {
   flex: 0 0 auto;
-  min-width: 180px;
-  max-width: 600px;
-  height: 200px;
-  width: 300px;
+  width: 320px;
+  min-height: 240px;
 
-  /* flex-direction: column; */
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 12px;
-  align-items: center;
-  padding: 16px;
+
+  padding: 20px;
   border-radius: 26px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .service-thumb {
-  width: 100px;
-  height: 100px;
-  border-radius: 100px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
 .service-info {
-  font-weight: 900;
-  font-size: 1rem;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.service-desc {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.85;
 }
 
 /* Respect reduced motion preference */
