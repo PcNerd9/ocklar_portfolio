@@ -32,179 +32,95 @@ setInterval(() => { pIndex = (pIndex + 1) % photos.length; showPhoto(pIndex); },
   const track = document.getElementById('sliderTrack');
   if (!slider || !track) return;
 
+  // Wait until images inside the track load to avoid layout jumps
   await imagesLoaded(track);
 
+  // Duplicate the track content once to create a seamless loop.
+  // (If you have very few items you might duplicate more times — adjust as needed)
   track.innerHTML += track.innerHTML;
 
-  let pos = 0;
-  const trackWidth = () => track.scrollWidth / 2;
+  // Variables for animation
+  let pos = 0; // current translateX in px
+  const trackWidth = () => track.scrollWidth / 2; // width of original content
   let lastTime = null;
   let isPaused = false;
-  let speedPxPerSec = 100;
 
+  // speed in pixels per second (tweak as needed)
+  let speedPxPerSec = 100; // 60px/sec ~ adjust for faster/slower
+
+  // Respect reduced motion preference — if user prefers reduce, don't animate
   const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
   if (prefersReduce) return;
 
+  // Animation step using delta time for smooth consistent speed
   function step(timestamp) {
     if (!lastTime) lastTime = timestamp;
-    const delta = timestamp - lastTime;
+    const delta = timestamp - lastTime; // ms
     lastTime = timestamp;
 
     if (!isPaused) {
-      pos += speedPxPerSec * (delta / 1000);
+      pos += (speedPxPerSec * (delta / 1000)); // px increments
       const resetAt = trackWidth();
-      if (pos >= resetAt) pos -= resetAt;
+      if (pos >= resetAt) {
+        // seamless reset
+        pos -= resetAt;
+      }
       track.style.transform = `translateX(${-pos}px)`;
     }
+
     requestAnimationFrame(step);
   }
 
-  /* ---------------- DRAG VS CLICK LOGIC ---------------- */
+  // Pause when user hovers, touches, or focuses inside slider
+  slider.addEventListener('mouseenter', () => isPaused = true);
+  slider.addEventListener('mouseleave', () => isPaused = false);
+  slider.addEventListener('focusin', () => isPaused = true);
+  slider.addEventListener('focusout', () => isPaused = false);
 
-  let startX = 0;
-  let isDragging = false;
-  const DRAG_THRESHOLD = 8;
-
-  
-  slider.addEventListener('pointerdown', e => {
-    startX = e.clientX;
-    isDragging = false;
+  // On pointer down (touch/drag) pause so users can interact
+  let pointerActive = false;
+  slider.addEventListener('pointerdown', (e) => {
+    pointerActive = true;
     isPaused = true;
+    slider.setPointerCapture(e.pointerId);
   });
-
-  slider.addEventListener('pointermove', e => {
-    if (Math.abs(e.clientX - startX) > DRAG_THRESHOLD) {
-      isDragging = true;
-    }
-  });
-
-  slider.addEventListener('pointerup', e => {
+  slider.addEventListener('pointerup', (e) => {
+    pointerActive = false;
     isPaused = false;
-
-    if (!isDragging) {
-      const card = e.target.closest('.service-card');
-      if (card) {
-        toggleCard(card);
-      }
-    }
+    slider.releasePointerCapture?.(e.pointerId);
   });
+  slider.addEventListener('pointercancel', () => { pointerActive = false; isPaused = false; });
 
-  slider.addEventListener('pointercancel', () => {
-    isPaused = false;
-  });
-
-  /* ---------------- CARD EXPAND ---------------- */
-
-  function toggleCard(card) {
-    document.querySelectorAll('.service-card.is-active')
-      .forEach(c => c !== card && c.classList.remove('is-active'));
-
-    card.classList.toggle('is-active');
-  }
-  
-  /* ---------------- RESIZE ---------------- */
-
+  // Recompute on resize — ensures seamlessness after layout change
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
+    // Pause during resize to avoid jumps
     isPaused = true;
     resizeTimer = setTimeout(() => {
+      // reset values to avoid overflow
       pos = pos % trackWidth();
       isPaused = false;
     }, 150);
   });
 
+  // Start animation
   requestAnimationFrame(step);
 
+
+  // --- helper: wait for all images inside a container to finish loading ---
   function imagesLoaded(container) {
     const imgs = Array.from(container.querySelectorAll('img'));
-    return Promise.all(imgs.map(img => {
+    const promises = imgs.map(img => {
       if (img.complete) return Promise.resolve();
       return new Promise(resolve => {
         img.addEventListener('load', resolve, { once: true });
         img.addEventListener('error', resolve, { once: true });
       });
-    }));
-  }
-})();
-
-(function () {
-  const focusLayer = document.getElementById('service-focus-layer');
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-  let activeCard = null;
-  let placeholder = null;
-
-  document.addEventListener('click', (e) => {
-    const card = e.target.closest('.service-card');
-    if (!card || activeCard) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    window.__pauseServicesSlider?.(true);
-
-    if (isMobile) {
-      // ✅ CLONE ON MOBILE
-      const clone = card.cloneNode(true);
-      clone.classList.add('is-focused', 'animate-in');
-
-      focusLayer.innerHTML = '';
-      focusLayer.appendChild(clone);
-      focusLayer.classList.add('active');
-
-      activeCard = clone;
-      return;
-    }
-
-    // ✅ MOVE ON DESKTOP
-    placeholder = document.createElement('div');
-    placeholder.style.width = `${card.offsetWidth}px`;
-    placeholder.style.height = `${card.offsetHeight}px`;
-    card.after(placeholder);
-
-    activeCard = card;
-    card.classList.add('is-focused');
-
-    focusLayer.appendChild(card);
-    focusLayer.classList.add('active');
-
-    card.classList.remove('animate-in');
-    card.getBoundingClientRect();
-
-    requestAnimationFrame(() => {
-      card.classList.add('animate-in');
     });
-  });
-
-  function closeFocus() {
-    if (!activeCard) return;
-
-    if (!isMobile && placeholder) {
-      activeCard.classList.remove('is-focused', 'animate-in');
-      placeholder.replaceWith(activeCard);
-    }
-
-    focusLayer.classList.remove('active');
-    focusLayer.innerHTML = '';
-
-    activeCard = null;
-    placeholder = null;
-
-    window.__pauseServicesSlider?.(false);
+    return Promise.all(promises);
   }
-
-  focusLayer.addEventListener('click', (e) => {
-    if (e.target === focusLayer) closeFocus();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeFocus();
-  });
 })();
-
-
 
 /* ====== Strengths auto horizontal scroll (gentle) ====== */
 const strengthGrid = document.getElementById('strengthGrid');
