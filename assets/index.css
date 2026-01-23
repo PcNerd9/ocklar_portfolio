@@ -428,6 +428,73 @@ nav.primary a:hover {
   border-radius: 26px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Active / expanded card */
+.service-card.is-active {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: min(90vw, 520px);
+  max-height: 80vh;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+
+  background: linear-gradient(180deg, rgba(30, 10, 40, 0.95), rgba(10, 5, 20, 0.95));
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.9);
+}
+
+/* Reveal description */
+.service-card.is-active .service-desc {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.service-card.is-focused .service-desc {
+  display: block;
+}
+
+#service-focus-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+#service-focus-layer.active {
+  display: flex;
+}
+
+/* position card above the slider */
+#service-focus-layer .service-card {
+  margin-top: clamp(80px, 20vh, 220px);
+  width: min(90vw, 520px);
+  max-height: 70vh;
+
+  overflow-y: auto;
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .service-thumb {
@@ -443,10 +510,13 @@ nav.primary a:hover {
 }
 
 .service-desc {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  opacity: 0.85;
+  display: none;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
+
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
