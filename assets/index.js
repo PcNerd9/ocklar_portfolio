@@ -43,6 +43,7 @@ setInterval(() => { pIndex = (pIndex + 1) % photos.length; showPhoto(pIndex); },
   let speedPxPerSec = 100;
 
   const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
   if (prefersReduce) return;
 
   function step(timestamp) {
@@ -65,6 +66,7 @@ setInterval(() => { pIndex = (pIndex + 1) % photos.length; showPhoto(pIndex); },
   let isDragging = false;
   const DRAG_THRESHOLD = 8;
 
+  
   slider.addEventListener('pointerdown', e => {
     startX = e.clientX;
     isDragging = false;
@@ -129,51 +131,72 @@ setInterval(() => { pIndex = (pIndex + 1) % photos.length; showPhoto(pIndex); },
 
 (function () {
   const focusLayer = document.getElementById('service-focus-layer');
-  const track = document.getElementById('sliderTrack');
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   let activeCard = null;
-  let originalParent = null;
-  let originalNextSibling = null;
+  let placeholder = null;
 
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.service-card');
     if (!card || activeCard) return;
 
-    // Pause slider
+    e.preventDefault();
+    e.stopPropagation();
+
     window.__pauseServicesSlider?.(true);
 
-    activeCard = card;
-    originalParent = card.parentNode;
-    originalNextSibling = card.nextSibling;
+    if (isMobile) {
+      // ✅ CLONE ON MOBILE
+      const clone = card.cloneNode(true);
+      clone.classList.add('is-focused', 'animate-in');
 
+      focusLayer.innerHTML = '';
+      focusLayer.appendChild(clone);
+      focusLayer.classList.add('active');
+
+      activeCard = clone;
+      return;
+    }
+
+    // ✅ MOVE ON DESKTOP
+    placeholder = document.createElement('div');
+    placeholder.style.width = `${card.offsetWidth}px`;
+    placeholder.style.height = `${card.offsetHeight}px`;
+    card.after(placeholder);
+
+    activeCard = card;
     card.classList.add('is-focused');
+
     focusLayer.appendChild(card);
     focusLayer.classList.add('active');
+
+    card.classList.remove('animate-in');
+    card.getBoundingClientRect();
+
+    requestAnimationFrame(() => {
+      card.classList.add('animate-in');
+    });
   });
-  
+
   function closeFocus() {
     if (!activeCard) return;
 
-    activeCard.classList.remove('is-focused');
-
-    if (originalNextSibling) {
-      originalParent.insertBefore(activeCard, originalNextSibling);
-    } else {
-      originalParent.appendChild(activeCard);
+    if (!isMobile && placeholder) {
+      activeCard.classList.remove('is-focused', 'animate-in');
+      placeholder.replaceWith(activeCard);
     }
 
     focusLayer.classList.remove('active');
+    focusLayer.innerHTML = '';
+
     activeCard = null;
-    originalParent = null;
-    originalNextSibling = null;
+    placeholder = null;
 
     window.__pauseServicesSlider?.(false);
   }
 
   focusLayer.addEventListener('click', (e) => {
-    if (!e.target.closest('.service-card')) {
-      closeFocus();
-    }
+    if (e.target === focusLayer) closeFocus();
   });
 
   document.addEventListener('keydown', (e) => {

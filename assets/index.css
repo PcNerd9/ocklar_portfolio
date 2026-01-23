@@ -416,7 +416,7 @@ nav.primary a:hover {
 /* keep your card styles, adjust min-width to taste */
 .service-card {
   flex: 0 0 auto;
-  width: 320px;
+  width: 290px;
   min-height: 240px;
 
   display: flex;
@@ -483,6 +483,10 @@ nav.primary a:hover {
 
   overflow-y: auto;
   animation: popIn 0.3s ease;
+}
+
+#service-focus-layer .service-desc {
+  display: block !important;
 }
 
 @keyframes popIn {
@@ -2646,4 +2650,34 @@ footer::before {
   50% {
     transform: translateY(-12px);
   }
+}
+
+@media (max-width: 768px) {
+  .slider-track {
+    gap: 16px;
+  }
+
+  .service-card {
+    width: 40vw;
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .service-thumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .service-info {
+    font-size: 1rem;
+  }
+
+  .service-desc {
+    font-size: 0.95rem;
+  }
+
+  .services-slider {
+    touch-action: pan-y;
+  }
+
 }
