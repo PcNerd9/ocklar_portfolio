@@ -23,25 +23,44 @@
   <link rel="stylesheet" href="assets/index.css" />
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "OCKLAR",
-    "alternateName": "OCKLAR PR",
-    "url": "https://ocklar.com",
-    "logo": "https://ocklar.com/assets/logo.jpeg",
-    "founder": {
-      "@type": "Person",
-      "name": "Ayomide Adewunmi"
-    },
-    "sameAs": [
-      "https://www.instagram.com/ocklar_promotions",
-      "https://www.tiktok.com/@ocklar_",
-      "https://x.com/OcklarP",
-      "https://wa.me/+2349032237344"
-    ]
-  }
-  </script>
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://ocklar.com/#organization",
+            "name": "OCKLAR",
+            "alternateName": "OCKLAR PR",
+            "url": "https://ocklar.com/",
+            "logo": "https://ocklar.com/assets/logo.jpeg",
+            "sameAs": [
+              "https://www.instagram.com/ocklar_promotions",
+              "https://www.tiktok.com/@ocklar_",
+              "https://x.com/OcklarP",
+              "https://wa.me/2349032237344"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://ocklar.com/about#ayomide-adewunmi",
+            "name": "Ayomide Adewunmi",
+            "jobTitle": "Public Relations Officer",
+            "worksFor": {
+              "@id": "https://ocklar.com/#organization"
+            },
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "University of Ilorin"
+            },
+            "url": "https://ocklar.com/about/",
+            "sameAs": [
+              "https://www.instagram.com/ocklar_promotions",
+              "https://x.com/OcklarP"
+            ]
+          }
+        ]
+      }
+      </script>
 
 </head>
 
