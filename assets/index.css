@@ -386,7 +386,7 @@ nav.primary a:hover {
 
 /* container: hide overflow, no scrollbar */
 .services {
-  margin-bottom: 80px
+  margin-bottom: 100px
 }
 .services-slider {
   overflow: hidden;
@@ -422,7 +422,8 @@ nav.primary a:hover {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 2px;
+  align-items: center;
 
   padding: 20px;
   border-radius: 26px;
@@ -439,14 +440,10 @@ nav.primary a:hover {
 
 .service-info {
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  align-items: center;
 }
 
-.service-desc {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  opacity: 0.85;
-}
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
@@ -463,7 +460,7 @@ nav.primary a:hover {
   background: none;
   border: none;
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.95rem;
   padding: 0;
   cursor: pointer;
