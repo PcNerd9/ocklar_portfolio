@@ -26,6 +26,43 @@ function showPhoto(i) {
 showPhoto(0);
 setInterval(() => { pIndex = (pIndex + 1) % photos.length; showPhoto(pIndex); }, 3500);
 
+const overlay = document.getElementById('serviceOverlay');
+const overlayTitle = document.getElementById('overlayTitle');
+const overlayImage = document.getElementById('overlayImage');
+const overlayDescription = document.getElementById('overlayDescription');
+const backdrop = overlay.querySelector('.overlay-backdrop');
+
+let active = false;
+
+function openOverlay(card) {
+  overlayTitle.textContent = card.dataset.title;
+  overlayDescription.textContent = card.dataset.description;
+  overlayImage.src = card.dataset.image;
+  overlayImage.alt = card.dataset.title;
+
+  overlay.setAttribute('aria-hidden', 'false');
+  active = true;
+}
+
+function closeOverlay() {
+  overlay.setAttribute('aria-hidden', 'true');
+  active = false;
+}
+
+(function () {
+
+  overlay.addEventListener('pointerup', (e) => {
+    if (e.target === backdrop) {
+      closeOverlay();
+    }
+  })
+
+  document.addEventListener('keydown', (e) => {
+    if (active && e.key === 'Escape') {
+      closeOverlay();
+    }
+  });
+})();
 
 (async function () {
   const slider = document.getElementById('servicesSlider');
@@ -44,6 +81,10 @@ setInterval(() => { pIndex = (pIndex + 1) % photos.length; showPhoto(pIndex); },
   const trackWidth = () => track.scrollWidth / 2; // width of original content
   let lastTime = null;
   let isPaused = false;
+  let startX = 0;
+  let startY = 0;
+  let isDragging = false;
+
 
   // speed in pixels per second (tweak as needed)
   let speedPxPerSec = 100; // 60px/sec ~ adjust for faster/slower
@@ -80,14 +121,41 @@ setInterval(() => { pIndex = (pIndex + 1) % photos.length; showPhoto(pIndex); },
   // On pointer down (touch/drag) pause so users can interact
   let pointerActive = false;
   slider.addEventListener('pointerdown', (e) => {
+    startX = e.clientX;
+    startY = e.clientY;
+    isDragging = false;
+
     pointerActive = true;
     isPaused = true;
     slider.setPointerCapture(e.pointerId);
   });
+
+  slider.addEventListener('pointermove', (e) => {
+    const dx = Math.abs(e.clientX - startX);
+    const dy = Math.abs(e.clientY - startY);
+
+    if (dx > 6 || dy > 6) {
+      isDragging = true;
+    }
+  });
+
   slider.addEventListener('pointerup', (e) => {
     pointerActive = false;
     isPaused = false;
     slider.releasePointerCapture?.(e.pointerId);
+
+    // If user dragged, do NOT open overlay
+    if (isDragging) return;
+
+    // Manually find element under finger/mouse
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    if (!el) return;
+
+    const card = el.closest('.service-card');
+
+    if (!card) return;
+
+    openOverlay(card);
   });
   slider.addEventListener('pointercancel', () => { pointerActive = false; isPaused = false; });
 
@@ -121,6 +189,9 @@ setInterval(() => { pIndex = (pIndex + 1) % photos.length; showPhoto(pIndex); },
     return Promise.all(promises);
   }
 })();
+
+
+
 
 /* ====== Strengths auto horizontal scroll (gentle) ====== */
 const strengthGrid = document.getElementById('strengthGrid');
